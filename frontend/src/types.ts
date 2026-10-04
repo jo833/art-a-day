@@ -1,6 +1,7 @@
+/** Artwork payload returned by the backend and rendered by the frontend. */
 export interface ArtworkResponse {
   artwork: {
-    objectId: number;
+    objectID: number;
     title: string;
     artist: string | null;
     date: string | null;
@@ -10,4 +11,3 @@ export interface ArtworkResponse {
   };
   description: string;
 }
-
