@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchArtwork } from "./api";
+import { fetchArtwork, fetchDogArtwork } from "./api";
 import type { ArtworkResponse } from "./types";
 import "./index.css";
 
+/** Renders the landscape home page or the dog-paintings page based on the path. */
 export default function App() {
+  const isDogsPage = window.location.pathname.replace(/\/+$/, "") === "/dogs";
   const [result, setResult] = useState<ArtworkResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
+  /** Loads the next artwork and exposes request errors for retry in the UI. */
   const loadArtwork = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      setResult(await fetchArtwork());
+      setResult(await (isDogsPage ? fetchDogArtwork() : fetchArtwork()));
     } catch (reason) {
       setError(
         reason instanceof Error ? reason.message : "Something went wrong.",
@@ -20,7 +23,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [isDogsPage]);
 
   useEffect(() => {
     void loadArtwork();
@@ -30,10 +33,27 @@ export default function App() {
     <main className="page-shell">
       <header>
         <p className="eyebrow">Art a Day</p>
-        <h1>A landscape worth lingering over.</h1>
+        <h1>
+          {isDogsPage
+            ? "A portrait of man's best friend."
+            : "A landscape worth lingering over."}
+        </h1>
         <p className="intro">
-          Discover a new work from The Metropolitan Museum of Art.
+          {isDogsPage
+            ? "Discover paintings of dogs from The Metropolitan Museum of Art."
+            : "Discover a new work from The Metropolitan Museum of Art."}
         </p>
+        <nav aria-label="Main navigation">
+          {isDogsPage ? (
+            <a className="nav-link" href="/">
+              Back to landscapes
+            </a>
+          ) : (
+            <a className="primary-link" href="/dogs">
+              Explore dog paintings
+            </a>
+          )}
+        </nav>
       </header>
       {loading && <p role="status">Finding an artwork...</p>}
       {error && (

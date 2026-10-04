@@ -1,6 +1,6 @@
 # Art a Day
 
-A local-only TypeScript application that selects a landscape artwork from The Metropolitan Museum of Art Collection API and presents a short description from the artwork's supplied metadata.
+A local-only TypeScript application that selects artwork from The Metropolitan Museum of Art Collection API and presents a short description from the artwork's supplied metadata. The home page features landscapes, with a separate dog-paintings page.
 
 ## Structure
 
@@ -17,7 +17,7 @@ A local-only TypeScript application that selects a landscape artwork from The Me
 6. Set `VITE_API_BASE_URL` to the local backend base URL if the frontend is not served through a same-origin proxy.
 7. Start the frontend in a second terminal with `npm run dev:frontend`.
 
-The backend binds to the configured local host. It exposes `/health` and `/api/artwork`. Each artwork request selects a new eligible landscape and builds its description from the metadata returned by The Met.
+The backend binds to the configured local host. It exposes `/health`, `/api/artwork`, and `/api/dogartwork`. Each artwork request selects a new eligible landscape or dog painting, respectively, and builds its description from the metadata returned by The Met. The frontend links from the home page to `/dogs` for the dog-paintings experience.
 
 ## Validation
 
